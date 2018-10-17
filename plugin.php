@@ -734,6 +734,15 @@ jQuery(function(){setTimeout('get_ull_info()', 10000);});
         <input type="submit" id="csv" class="button action" value="CSV Export">
     </form>
 </div>
+<?php
+	function csv_export($flag, $ull) {
+
+	}
+	if(!empty($_POST['csv_flag'])){
+		$falg = $_POST['csv_flag'];
+		csv_export($falg,$ull);
+	}
+?>
 <?php } ?>
 
 <div class="alignright tablenav-pages">
@@ -791,16 +800,8 @@ jQuery(function(){setTimeout('get_ull_info()', 10000);});
 </tfoot>
 
 <tbody id="user-login-log">
-<?php
-function csv_export() {
-
-}
-
-?>
 <?php foreach($ull as $row) {?>
 <?php
-
-	var_dump( $row );
 list($browser_name, $browser_code, $browser_ver, $os_name, $os_code, $os_ver, $pda_name, $pda_code, $pda_ver) = self::detect_browser($row->activity_agent);
 $ua  = trim("$os_name $os_ver");
 $ua .= $browser_code !== $os_code ? (empty($ua) ? '' : ' / ')."$browser_name $browser_ver" : '';
