@@ -27,11 +27,6 @@ if ( ! class_exists( 'CsvExport' ) ) {
 			foreach ( $ull as $row ) {
 
 				//比較のためにunixタイムに変換
-
-//				var_dump($row->activity_date);
-//				var_dump($date_start);
-//				var_dump($date_end);
-
 				$unix_date = strtotime( $row->activity_date );
 				$unix_date_start = strtotime( $date_start );
 				//日付+23時間59分59秒を追加
