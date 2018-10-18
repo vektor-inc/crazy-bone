@@ -725,7 +725,7 @@ jQuery(function(){setTimeout('get_ull_info()', 10000);});
 <?php submit_button(__('Truncate', self::TEXT_DOMAIN), 'action', false, false, array('id' => "truncate"));?>
 </form>
 </div>
-<div>
+<div class="alignleft actions">
     <form action="" method="post">
         <input type="hidden" name="csv_flag" value="1">
         <label><?php _e('Select Date', self::TEXT_DOMAIN);?></label>
@@ -734,15 +734,18 @@ jQuery(function(){setTimeout('get_ull_info()', 10000);});
         <input type="submit" id="csv" class="button action" value="CSV Export">
     </form>
 </div>
-<?php
+	<?php
 	function csv_export($flag, $ull) {
-
+//		if (!class_exists('CsvExport'))
+//		    require_once( dirname(__FILE__) . '/includes/class.csv-export.php' );
+//		CsvExport::export_csv($ull);
+		echo '<div><a href="export.csv" download>Click here to download</a></div>';
 	}
 	if(!empty($_POST['csv_flag'])){
 		$falg = $_POST['csv_flag'];
 		csv_export($falg,$ull);
 	}
-?>
+	?>
 <?php } ?>
 
 <div class="alignright tablenav-pages">
