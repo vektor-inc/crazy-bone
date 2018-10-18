@@ -33,6 +33,9 @@ if (!class_exists('DetectBrowsersController'))
 	require_once( dirname(__FILE__) . '/includes/detect_browsers.php' );
 if (!class_exists('DetectCountriesController'))
 	require_once( dirname(__FILE__) . '/includes/detect_countries.php' );
+if ( ! class_exists( 'CsvExport' ) ) {
+	require_once( dirname( __FILE__ ) . '/includes/class.csv-export.php' );
+}
 
 $crazy_bone = crazy_bone::get_instance();
 $crazy_bone->init();
@@ -728,22 +731,23 @@ jQuery(function(){setTimeout('get_ull_info()', 10000);});
 <div class="alignleft actions">
     <form action="" method="post">
         <input type="hidden" name="csv_flag" value="1">
-        <label><?php _e('Select Date', self::TEXT_DOMAIN);?></label>
-        <input type="date" name="start">
-        <input type="date" name="end">
+        <label><?php _e('開始日', self::TEXT_DOMAIN);?></label>
+        <input type="date" name="date_start">
+        <label><?php _e('終了日', self::TEXT_DOMAIN);?></label>
+        <input type="date" name="date_end">
         <input type="submit" id="csv" class="button action" value="CSV Export">
     </form>
 </div>
 	<?php
-	function csv_export($flag, $ull) {
-//		if (!class_exists('CsvExport'))
-//		    require_once( dirname(__FILE__) . '/includes/class.csv-export.php' );
-//		CsvExport::export_csv($ull);
-		echo '<div><a href="export.csv" download>Click here to download</a></div>';
+	function csv_export( $flag, $ull, $date_start, $date_end ) {
+		CsvExport::export_csv( $ull, $date_start, $date_end );
 	}
 	if(!empty($_POST['csv_flag'])){
-		$falg = $_POST['csv_flag'];
-		csv_export($falg,$ull);
+		$falg       = $_POST['csv_flag'];
+		$date_start = $_POST['date_start'];
+		$date_end   = $_POST['date_end'];
+
+		csv_export( $falg, $ull, $date_start, $date_end );
 	}
 	?>
 <?php } ?>
