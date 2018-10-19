@@ -739,14 +739,14 @@ jQuery(function(){setTimeout('get_ull_info()', 10000);});
     </form>
 </div>
 	<?php
-	function csv_export( $flag, $ull, $date_start, $date_end ) {
-		CsvExport::export_csv( $ull, $date_start, $date_end );
+	function csv_export( $flag, $login_data, $date_start, $date_end ) {
+
+		CsvExport::export_csv( $login_data, $date_start, $date_end );
 	}
 	if(!empty($_POST['csv_flag'])){
 		$falg       = $_POST['csv_flag'];
 		$date_start = $_POST['date_start'];
 		$date_end   = $_POST['date_end'];
-
 		csv_export( $falg, $ull, $date_start, $date_end );
 	}
 	?>
