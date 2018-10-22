@@ -4,7 +4,7 @@ if ( ! class_exists( 'CsvExport' ) ) {
 	class CsvExport {
 
 		// CSV 出力実行
-		public static function export_csv($login_data, $date_start, $date_end ) {
+		public static function export_csv( $login_data, $date_start, $date_end ) {
 
 			/*-------------------------------------------*/
 			/*	過去に作成したexport.csvがあれば削除
@@ -25,16 +25,14 @@ if ( ! class_exists( 'CsvExport' ) ) {
 			/*	項目をCSVに書き込み
 			/*-------------------------------------------*/
 
-
 			foreach ( $login_data as $logoin_row ) {
 
 				$role   = $logoin_row->user_login;
-				$date   = date_i18n( "Y/n/j", strtotime( $logoin_row->activity_date ) );
+				$date   = date_i18n( 'Y/n/j', strtotime( $logoin_row->activity_date ) );
 				$status = $logoin_row->activity_status;
 				$ip     = $logoin_row->activity_IP;
 				$ua     = $logoin_row->activity_agent;
 				$error  = $logoin_row->activity_errors;
-
 
 				$c   = [];
 				$c[] = '"' . $role . '"';
