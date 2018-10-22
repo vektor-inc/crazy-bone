@@ -747,7 +747,19 @@ jQuery(function(){setTimeout('get_ull_info()', 10000);});
 		$falg       = $_POST['csv_flag'];
 		$date_start = $_POST['date_start'];
 		$date_end   = $_POST['date_end'];
-		csv_export( $falg, $ull, $date_start, $date_end );
+
+		$sql = "
+			FROM `{$this->ull_table}`
+			LEFT JOIN `{$wpdb->users}` ON `{$this->ull_table}`.`user_id` = `{$wpdb->users}`.`ID`";
+
+		$sql = $wpdb->prepare(
+			'SELECT `user_id`, `user_login`, `activity_date`, `activity_status`, `activity_IP`, `activity_agent`, `activity_errors`'.
+			$sql.' AND `activity_date` >= %s AND `activity_date` <= %s ORDER BY `activity_date` DESC',
+			$date_start,
+			$date_end
+		);
+		$query_by_date = $wpdb->get_results($sql);
+		csv_export( $falg, $query_by_date, $date_start, $date_end );
 	}
 	?>
 <?php } ?>

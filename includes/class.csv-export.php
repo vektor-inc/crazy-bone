@@ -42,12 +42,6 @@ if ( ! class_exists( 'CsvExport' ) ) {
 						echo "開始日が、終了日より遅いです。";
 						return;
 					}
-
-					//指定した期間の日付はスキップ
-					if($unix_date < $unix_date_start || $unix_date > $unix_date_end ){
-						continue;
-					}
-
 				}
 
 				$role   = $logoin_row->user_login;
