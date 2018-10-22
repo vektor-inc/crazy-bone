@@ -752,6 +752,9 @@ jQuery(function(){setTimeout('get_ull_info()', 10000);});
 		$unix_date_start = strtotime( $date_start );
 		//日付+23時間59分59秒を追加
 		$unix_date_end = strtotime( $date_end ) + 86399;
+		//SQL用に$unix_date_endをY-m-d H:i:s形式に変換
+		$date_end_for_query = date("Y/m/d H:i:s",$unix_date_end);
+
 		//開始日が終了日より遅い場合は警告
 		if($unix_date_start >=  $unix_date_end){
 			echo "開始日が、終了日より遅いです。";
@@ -764,17 +767,18 @@ jQuery(function(){setTimeout('get_ull_info()', 10000);});
 
 		$sql = $wpdb->prepare(
 			'SELECT `user_id`, `user_login`, `activity_date`, `activity_status`, `activity_IP`, `activity_agent`, `activity_errors`'.
-			$sql.' AND `activity_date` >= %s AND `activity_date` <= %s ORDER BY `activity_date` DESC',
+			$sql.' WHERE `activity_date` BETWEEN %s AND %s ORDER BY `activity_date` DESC',
 			$date_start,
-			$date_end
+			$date_end_for_query
 		);
 		$query_by_date = $wpdb->get_results($sql);
 		csv_export( $query_by_date, $date_start, $date_end );
+
 	}elseif(!empty($_POST['export_btn'])){
 		echo "日付が指定されていません。";
 	}else{
 
-    }
+	}
 	?>
 <?php } ?>
 
