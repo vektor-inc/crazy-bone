@@ -28,22 +28,6 @@ if ( ! class_exists( 'CsvExport' ) ) {
 
 			foreach ( $login_data as $logoin_row ) {
 
-				//比較のためにunixタイムに変換
-				$unix_date = strtotime( $logoin_row->activity_date );
-				$unix_date_start = strtotime( $date_start );
-				//日付+23時間59分59秒を追加
-				$unix_date_end = strtotime( $date_end ) + 86399;
-
-
-				if(!empty($unix_date_start) || !empty($unix_date_end)){
-
-					//開始日が終了日より遅い場合は警告
-					if($unix_date_start >=  $unix_date_end){
-						echo "開始日が、終了日より遅いです。";
-						return;
-					}
-				}
-
 				$role   = $logoin_row->user_login;
 				$date   = date_i18n( "Y/n/j", strtotime( $logoin_row->activity_date ) );
 				$status = $logoin_row->activity_status;

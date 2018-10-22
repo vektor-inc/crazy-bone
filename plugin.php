@@ -730,23 +730,33 @@ jQuery(function(){setTimeout('get_ull_info()', 10000);});
 </div>
 <div class="alignleft actions">
     <form action="" method="post">
-        <input type="hidden" name="csv_flag" value="1">
         <label><?php _e('開始日', self::TEXT_DOMAIN);?></label>
         <input type="date" name="date_start">
         <label><?php _e('終了日', self::TEXT_DOMAIN);?></label>
         <input type="date" name="date_end">
-        <input type="submit" id="csv" class="button action" value="CSV Export">
+        <input type="submit" name="export_btn" id="csv" class="button action" value="CSV Export">
     </form>
 </div>
 	<?php
-	function csv_export( $flag, $login_data, $date_start, $date_end ) {
+	function csv_export( $login_data, $date_start, $date_end ) {
 
 		CsvExport::export_csv( $login_data, $date_start, $date_end );
 	}
-	if(!empty($_POST['csv_flag'])){
-		$falg       = $_POST['csv_flag'];
+
+	if(!empty($_POST['date_start']) && !empty($_POST['date_end'])){
+
 		$date_start = $_POST['date_start'];
 		$date_end   = $_POST['date_end'];
+
+		//比較のためにunixタイムに変換
+		$unix_date_start = strtotime( $date_start );
+		//日付+23時間59分59秒を追加
+		$unix_date_end = strtotime( $date_end ) + 86399;
+		//開始日が終了日より遅い場合は警告
+		if($unix_date_start >=  $unix_date_end){
+			echo "開始日が、終了日より遅いです。";
+			return;
+		}
 
 		$sql = "
 			FROM `{$this->ull_table}`
@@ -759,8 +769,12 @@ jQuery(function(){setTimeout('get_ull_info()', 10000);});
 			$date_end
 		);
 		$query_by_date = $wpdb->get_results($sql);
-		csv_export( $falg, $query_by_date, $date_start, $date_end );
-	}
+		csv_export( $query_by_date, $date_start, $date_end );
+	}elseif(!empty($_POST['export_btn'])){
+		echo "日付が指定されていません。";
+	}else{
+
+    }
 	?>
 <?php } ?>
 
