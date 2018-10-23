@@ -728,15 +728,28 @@ jQuery(function(){setTimeout('get_ull_info()', 10000);});
 <?php submit_button(__('Truncate', self::TEXT_DOMAIN), 'action', false, false, array('id' => "truncate"));?>
 </form>
 </div>
-<div class="alignleft actions">
-    <form action="" method="post">
-        <label><?php _e('開始日', self::TEXT_DOMAIN);?></label>
-        <input type="date" name="date_start">
-        <label><?php _e('終了日', self::TEXT_DOMAIN);?></label>
-        <input type="date" name="date_end">
-        <input type="submit" name="export_btn" id="csv" class="button action" value="CSV Export">
-    </form>
-</div>
+<style type="text/css">
+.csv-filter {
+	clear:both;
+	display:block; overflow:hidden;
+	display: flex;
+	position: relative;
+	float:left;
+}
+.tablenav a.button-csv {
+	display: inline-block;
+	margin:0 0 0 5px;
+}
+</style>
+<div class="csv-filter">
+	<form action="" method="post">
+		<label><?php _e( '開始日', self::TEXT_DOMAIN ); ?></label>
+		<input type="date" name="date_start">
+		<label><?php _e( '終了日', self::TEXT_DOMAIN ); ?></label>
+		<input type="date" name="date_end">
+		<input type="submit" name="export_btn" id="csv" class="button action" value="CSVに出力する日付を絞り込む">
+	</form>
+
 	<?php
 	function csv_export( $login_data, $date_start, $date_end ) {
 
@@ -780,6 +793,7 @@ jQuery(function(){setTimeout('get_ull_info()', 10000);});
 
 	}
 	?>
+	</div>
 <?php } ?>
 
 <div class="alignright tablenav-pages">
