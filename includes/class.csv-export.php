@@ -62,7 +62,13 @@ if ( ! class_exists( 'CsvExport' ) ) {
 				$status = $logoin_row->activity_status;
 				$ip     = $logoin_row->activity_IP;
 				$ua     = $logoin_row->activity_agent;
-				$error  = $logoin_row->activity_errors;
+				$error_raw  = $logoin_row->activity_errors;
+				//非シリアル化
+				$error = maybe_unserialize( $error_raw );
+				//エラー時のキーを取得
+				$error = key($error["errors"]);
+
+
 
 				if ( self::is_export_csv_row( $logoin_row ) ) {
 					$c   = [];
