@@ -7,6 +7,8 @@ if ( ! class_exists( 'CsvExport' ) ) {
 		public static function is_export_csv_row( $logoin_row ) {
 			$get_user_id     = ( ! empty( $_GET['user_id'] ) ) ? $_GET['user_id'] : '';
 			$get_user_status = ( ! empty( $_GET['status'] ) ) ? $_GET['status'] : '';
+
+
 			// ユーザーとステータスがある場合
 			if ( $get_user_id && $get_user_id != -1 && $get_user_status ) {
 				if ( $get_user_id == $logoin_row->user_id && $get_user_status == $logoin_row->activity_status ) {
@@ -58,6 +60,11 @@ if ( ! class_exists( 'CsvExport' ) ) {
 
 				$id     = $logoin_row->user_id;
 				$role   = $logoin_row->user_login;
+				//ログインエラー時のユーザー名を取得
+				if(is_null($role)){
+					$role   =maybe_unserialize($logoin_row->activity_errors);
+					$role = $role["user_login"];
+				}
 				$date   = date_i18n( 'Y/n/j', strtotime( $logoin_row->activity_date ) );
 				$status = $logoin_row->activity_status;
 				$ip     = $logoin_row->activity_IP;
